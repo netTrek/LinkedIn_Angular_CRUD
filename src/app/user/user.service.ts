@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { interval, Observable, of } from 'rxjs';
 import { User } from './user';
-import { first, switchMap } from 'rxjs/operators';
+import { first, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable ( {
   providedIn: 'root'
@@ -19,7 +20,6 @@ export class UserService {
   loggedIn = true;
 
   constructor( private http: HttpClient ) {
-    console.log ( http );
   }
 
   getUserByName( name: string ): User | undefined {
@@ -29,12 +29,9 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return interval ( 250 )
-      .pipe (
-        first (),
-        switchMap ( next => {
-          return of ( this.data );
-        } )
+    return this.http.get<User[]> ( environment.userEndpoint )
+      .pipe(
+        tap( users => this.data = users )
       );
   }
 

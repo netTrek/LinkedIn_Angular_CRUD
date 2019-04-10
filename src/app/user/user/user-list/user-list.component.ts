@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
   selectedUsr: User;
 
   constructor( public userList: UserListService ) {
-    console.log ( userList.myServiceValue );
+    // console.log ( userList.myServiceValue );
   }
 
   ngOnInit() {
