@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { interval, Observable, of } from 'rxjs';
 import { User } from './user';
 import { first, switchMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable ( {
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class UserService {
 
   loggedIn = true;
 
-  constructor() {
+  constructor( private http: HttpClient ) {
+    console.log ( http );
   }
 
   getUserByName( name: string ): User | undefined {

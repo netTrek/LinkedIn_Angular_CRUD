@@ -8,11 +8,13 @@ import { UserListSubHeaderComponent } from './user/user-list/user-list-sub-heade
 import { UserListInfoComponent } from './user/user-list/user-list-info/user-list-info.component';
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule ( {
   imports     : [
     CommonModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   declarations: [ UserComponent,
                   UserListComponent,
