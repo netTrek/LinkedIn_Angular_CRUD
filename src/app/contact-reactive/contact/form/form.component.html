@@ -1,0 +1,31 @@
+<form [formGroup]="myForm">
+
+  <span [formGroup]="personalInfo">
+    <input type="text"
+           [formControl]="username"
+           placeholder="name">
+    <div *ngIf="username.touched && username.dirty">
+      <div *ngIf="username.errors?.required">Dieses Feld muss befüllt werden</div>
+      <div *ngIf="username.errors?.minlength">
+        Es müssen min. 3 Zeichen eingegeben sind nur {{username.errors.minlength.actualLength}}
+      </div>
+    </div>
+    <br>
+    <input type="email"
+           [formControl]="email"
+           placeholder="email">
+  </span>
+  <br>
+
+  <input type="date" [formControl]="desired">
+  <div *ngIf="desired.errors?.future">{{desired.errors | json}}</div>
+  <textarea
+    [formControl]="msg"
+    cols="30"
+    rows="5"
+    placeholder="Nachricht"></textarea>
+
+</form>
+
+{{myForm.valid}}
+{{myForm.value | json }}

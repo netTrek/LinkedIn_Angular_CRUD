@@ -1,0 +1,54 @@
+<form #myForm="ngForm"
+      [ngFormOptions]="{updateOn: 'change'}"
+      (submit)="send( myForm.value )"
+      (reset)="reset()"
+>
+
+  <span ngModelGroup="personalInfo">
+    <input type="text"
+           #username="ngModel"
+           ngModel
+           (ngModelChange)="usernameChanged( $event )"
+           [ngModelOptions]="{updateOn: 'change'}"
+           name="name"
+           id="name"
+           required
+           pattern="[a-z]*"
+           minlength="3"
+           placeholder="name"> {{ username.valid }}
+    <div *ngIf="username.touched && username.dirty">
+      <div *ngIf="username.errors?.required">Dieses Feld muss befüllt werden</div>
+      <div *ngIf="username.errors?.minlength">
+        Es müssen min. 3 Zeichen eingegeben sind nur {{username.errors.minlength.actualLength}}
+      </div>
+    </div>
+    <br>
+    <input type="email"
+           #email="ngModel"
+           ngModel
+           name="email"
+           id="email"
+           required
+           email
+           inUniqueMail
+           placeholder="email"> {{email.errors | json}}
+  </span>
+  <br>
+  <input type="text" name="serial" ngModel="hkasdhkjshkjashd" #serial="ngModel" inSerial>
+  <textarea
+    #message="ngModel"
+    ngModel
+    name="msg"
+    id="msg"
+    cols="30"
+    rows="5"
+    placeholder="Nachricht"></textarea>
+
+  <button type="submit" [disabled]="myForm.invalid">senden</button>
+  <button type="reset" [disabled]="myForm.pristine">reset</button>
+
+</form>
+
+<!--<button (click)="updateName()">update</button>-->
+
+<p>{{myForm.value | json}}</p>
