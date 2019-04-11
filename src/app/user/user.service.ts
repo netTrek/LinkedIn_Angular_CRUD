@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { User } from './user';
 import { concatMap, filter, tap } from 'rxjs/operators';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable ( {
@@ -35,7 +35,10 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.request<User[]>( 'get', environment.userEndpoint )
+    const params: HttpParams = new HttpParams().set( 'token', 'Saban Ünlü');
+    return this.http.request<User[]>( 'get', environment.userEndpoint, {
+      params
+    } )
                .pipe (
                  tap ( users => this.list.next( users ) )
                );
