@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from './user';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,8 @@ export class UserService {
   //   { age: 44, firstname: 'Saban', lastname: 'Ünlü' }
   // ];
 
-  list: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  list: BehaviorSubject<User[]>      = new BehaviorSubject ( [] );
+  updated: Subject<User>      = new Subject ( );
 
   loggedIn = true;
 
@@ -27,15 +28,16 @@ export class UserService {
   }
 
   getUserByName( name: string ): User | undefined {
-    return this.list.getValue().find ( value => {
-      return `${value.firstname} ${value.lastname}` === name;
-    } );
+    return this.list.getValue ()
+               .find ( value => {
+                 return `${value.firstname} ${value.lastname}` === name;
+               } );
   }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]> ( environment.userEndpoint )
                .pipe (
-                 tap ( users => this.list.next( users ))
+                 tap ( users => this.list.next ( users ) )
                );
   }
 
@@ -45,8 +47,18 @@ export class UserService {
 
   create( user: User ): Observable<User> {
     return this.http.post<User> ( environment.userEndpoint, user )
-      .pipe(
-        tap ( createdUsr => this.getUsers().subscribe() )
-      );
+               .pipe (
+                 tap ( createdUsr => this.getUsers ()
+                                         .subscribe () )
+               );
   }
+
+  update( user: User ): Observable<User> {
+    return this.http.put<User> ( `${environment.userEndpoint}/${user.id}`, user )
+               .pipe (
+                 tap ( updateddUsr => this.updated.next(updateddUsr) )
+               );
+  }
+
+
 }

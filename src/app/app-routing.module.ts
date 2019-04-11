@@ -36,7 +36,13 @@ const routes: Routes = [
     }
   },
   {
-    path       : 'addUser', component: UserFormComponent, outlet: 'modal'
+    path: 'addUser', component: UserFormComponent, outlet: 'modal'
+  },
+  {
+    path   : 'editUser/:id', component: UserFormComponent, outlet: 'modal',
+    resolve: {
+      user: UserdetailGuard
+    }
   },
   {
     path: 'contact', loadChildren: './contact/contact.module#ContactModule'

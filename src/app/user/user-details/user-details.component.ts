@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../user';
+import { UserService } from '../user.service';
+import { first } from 'rxjs/operators';
 
 @Component ( {
   selector   : 'in-user-details',
@@ -12,8 +14,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   user: User;
   private sub: Subscription;
+  private updateSub: Subscription;
 
-  constructor( private router: Router, private route: ActivatedRoute ) {
+  constructor( private router: Router, private route: ActivatedRoute, private $user: UserService ) {
   }
 
   ngOnInit() {
@@ -22,6 +25,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe ();
+    this.updateSub.unsubscribe ();
+  }
+
+
+  editUser() {
+    this.updateSub = this.$user.updated
+                         .pipe( first() )
+                         .subscribe( user => this.user = user );
+    this.router.navigate ( [ { outlets: { modal: [ 'editUser', this.user.id ] } } ] );
   }
 
 }
