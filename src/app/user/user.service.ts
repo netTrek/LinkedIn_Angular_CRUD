@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, empty, interval, Observable, Subject, throwError } from 'rxjs';
 import { User } from './user';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, retry, retryWhen, tap } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { of } from 'rxjs/internal/observable/of';
+import { concatMap } from 'rxjs/internal/operators/concatMap';
 
 @Injectable ( {
   providedIn: 'root'
@@ -27,11 +28,24 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
+    let error = null;
     return this.http.get<User[]> ( environment.userEndpoint )
                .pipe (
                  map ( value => {
-                   throw ( new Error ('ups ... so nicht!') );
+                   // throw ( new Error ('ups ... so nicht!') );
                    return value;
+                 }),
+                 tap ( undefined, err => error = err ),
+                 retryWhen ( errors => {
+                   return interval( 5000 )
+                     .pipe(
+                       concatMap( value => {
+                         if ( value < 1 ) {
+                           return of ( empty );
+                         }
+                         return throwError ( error );
+                       })
+                     );
                  }),
                  catchError( err => {
                    if ( err instanceof HttpErrorResponse ) {
