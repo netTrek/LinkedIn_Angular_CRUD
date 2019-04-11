@@ -10,21 +10,12 @@ import { environment } from '../../environments/environment';
 } )
 export class UserService {
 
-  // private data: User[] = [
-  //   { age: 12, firstname: 'Peter', lastname: 'Müller' },
-  //   { age: 22, firstname: 'Frank', lastname: 'Müller' },
-  //   { age: 33, firstname: 'Heike', lastname: 'Müller' },
-  //   { age: 44, firstname: 'Saban', lastname: 'Ünlü' }
-  // ];
-
   list: BehaviorSubject<User[]>      = new BehaviorSubject ( [] );
   updated: Subject<User>      = new Subject ( );
 
   loggedIn = true;
 
   constructor( private http: HttpClient ) {
-    // this.create( {firstname: 'peter', lastname: 'meier', age: 22 })
-    //   .subscribe( createdUsr => console.log( createdUsr ) );
   }
 
   getUserByName( name: string ): User | undefined {
@@ -35,43 +26,10 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    const params: HttpParams = new HttpParams().set( 'token', 'Saban Ünlü');
-    return this.http.request<User[]>( 'get', environment.userEndpoint, {
-      observe: 'events', responseType: 'json', reportProgress: true
-    } )
+    return this.http.get<User[]> ( environment.userEndpoint )
                .pipe (
-                 tap ( event => {
-                   let eventName = '';
-                   switch ( event.type ) {
-                     case HttpEventType.Sent:
-                       eventName = 'Sent';
-                       break;
-                     case HttpEventType.DownloadProgress:
-                       eventName = 'DownloadProgress';
-                       break;
-                     case HttpEventType.UploadProgress:
-                       eventName = 'UploadProgress';
-                       break;
-                     case HttpEventType.User:
-                       eventName = 'User';
-                       break;
-                     case HttpEventType.Response:
-                       eventName = 'Response';
-                       break;
-                     case HttpEventType.ResponseHeader:
-                       eventName = 'ResponseHeader';
-                       break;
-                   }
-                   console.log ( eventName, event );
-                 } ),
-                 filter ( value => value.type === HttpEventType.Response ),
-                 map( value => (value as HttpResponse<User[]>).body ),
                  tap ( users => this.list.next( users ) )
                );
-    // return this.http.get<User[]> ( environment.userEndpoint )
-    //            .pipe (
-    //              tap ( users => this.list.next( users ) )
-    //            );
   }
 
   getUserById( id: number ): Observable<User> {
@@ -79,10 +37,7 @@ export class UserService {
   }
 
   create( user: User ): Observable<User> {
-    // return this.http.post<User> ( environment.userEndpoint, user )
-    return this.http.request<User>( 'post', environment.userEndpoint, {
-      body: user
-    } )
+    return this.http.post<User> ( environment.userEndpoint, user )
                .pipe (
                  tap ( createdUsr => this.getUsers ()
                                          .subscribe () )
