@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from './user';
-import { concatMap, filter, map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -37,10 +37,35 @@ export class UserService {
   getUsers(): Observable<User[]> {
     const params: HttpParams = new HttpParams().set( 'token', 'Saban Ünlü');
     return this.http.request<User[]>( 'get', environment.userEndpoint, {
-      observe: 'response', responseType: 'json'
+      observe: 'events', responseType: 'json', reportProgress: true
     } )
                .pipe (
-                 map( value => value.body ),
+                 tap ( event => {
+                   let eventName = '';
+                   switch ( event.type ) {
+                     case HttpEventType.Sent:
+                       eventName = 'Sent';
+                       break;
+                     case HttpEventType.DownloadProgress:
+                       eventName = 'DownloadProgress';
+                       break;
+                     case HttpEventType.UploadProgress:
+                       eventName = 'UploadProgress';
+                       break;
+                     case HttpEventType.User:
+                       eventName = 'User';
+                       break;
+                     case HttpEventType.Response:
+                       eventName = 'Response';
+                       break;
+                     case HttpEventType.ResponseHeader:
+                       eventName = 'ResponseHeader';
+                       break;
+                   }
+                   console.log ( eventName, event );
+                 } ),
+                 filter ( value => value.type === HttpEventType.Response ),
+                 map( value => (value as HttpResponse<User[]>).body ),
                  tap ( users => this.list.next( users ) )
                );
     // return this.http.get<User[]> ( environment.userEndpoint )
