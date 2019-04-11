@@ -91,22 +91,10 @@
       "age": 15
     },
     {
-      "id": 16,
-      "firstname": "Makayla",
-      "lastname": "Ford",
-      "age": 16
-    },
-    {
       "id": 17,
       "firstname": "Melanie",
       "lastname": "Sherlock",
       "age": 17
-    },
-    {
-      "firstname": "Saban",
-      "lastname": "Ünlü",
-      "age": 19,
-      "id": 19
     }
   ]
 }

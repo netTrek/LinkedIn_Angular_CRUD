@@ -60,5 +60,9 @@ export class UserService {
                );
   }
 
+  delete( user: User ): Observable<User> {
+    return this.http.delete<User> ( `${environment.userEndpoint}/${user.id}` );
+  }
+
 
 }

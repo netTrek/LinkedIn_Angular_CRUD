@@ -6,9 +6,9 @@ import { UserService } from '../user.service';
 import { first } from 'rxjs/operators';
 
 @Component ( {
-  selector   : 'in-user-details',
+  selector: 'in-user-details',
   templateUrl: './user-details.component.html',
-  styleUrls  : [ './user-details.component.scss' ]
+  styleUrls: [ './user-details.component.scss' ]
 } )
 export class UserDetailsComponent implements OnInit, OnDestroy {
 
@@ -30,12 +30,25 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   editUser() {
     this.updateSub = this.$user.updated
-                         .pipe( first() )
-                         .subscribe( user => this.user = user );
-    this.router.navigate ( [ { outlets: { modal: [ 'editUser', this.user.id ] } } ] );
+                         .pipe ( first () )
+                         .subscribe ( user => this.user = user );
+    this.router.navigate ( [ {
+      outlets: {
+        modal: [ 'editUser',
+                 this.user.id
+        ]
+      }
+    }
+    ] );
+  }
+
+  deleteUser() {
+    if ( confirm ( 'Willst du den User wirklich löschen' ) ) {
+      this.$user.delete ( this.user )
+          .subscribe ( succ => this.router.navigate ( [ '/user' ] ) );
+    }
   }
 
 }
