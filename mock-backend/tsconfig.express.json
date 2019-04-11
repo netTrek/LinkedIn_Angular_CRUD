@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "module": "ES6",
+    "target": "ES6",
+    "baseUrl": "./",
+    "types": [
+      "json-server",
+      "express"
+    ]
+  },
+  "files": [
+    "index.ts"
+  ],
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}
