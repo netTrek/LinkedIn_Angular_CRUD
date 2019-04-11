@@ -1,4 +1,4 @@
-<in-user-list [users]="userlist">
+<in-user-list [users]="$user.list | async | slice : -5">
   <in-user-list-info>{{description}}</in-user-list-info>
   <in-user-list-header>{{header}}</in-user-list-header>
   <in-user-list-sub-header>{{subheader}}</in-user-list-sub-header>

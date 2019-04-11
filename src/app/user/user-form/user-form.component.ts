@@ -37,7 +37,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
                      if ( data.hasOwnProperty('user') ) {
                       this.user = data.user as User;
                      } else {
-                       this.user = {firstname: 'sa', lastname: 'ba', age: 11 };
+                       this.user = {firstname: '', lastname: '', age: 1 };
                      }
                      this.prepairForm ();
                    } );
@@ -75,6 +75,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   sendForm() {
     // this.app.closeModal();
+    this.$user.create( this.myForm.value ).subscribe( succ => this.app.closeModal() );
   }
 
   resetForm( $event: Event ) {

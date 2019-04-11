@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../user';
+import { UserService } from '../user.service';
 
 @Component ( {
   selector   : 'in-user',
@@ -17,7 +18,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor( private router: Router, private route: ActivatedRoute ) {
+  constructor( private router: Router, private route: ActivatedRoute, public $user: UserService ) {
   }
 
   ngOnInit() {
