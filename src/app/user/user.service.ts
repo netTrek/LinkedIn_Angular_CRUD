@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { User } from './user';
-import { tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { concatMap, filter, tap } from 'rxjs/operators';
+import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable ( {
@@ -35,10 +35,14 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]> ( environment.userEndpoint )
+    return this.http.request<User[]>( 'get', environment.userEndpoint )
                .pipe (
-                 tap ( users => this.list.next ( users ) )
+                 tap ( users => this.list.next( users ) )
                );
+    // return this.http.get<User[]> ( environment.userEndpoint )
+    //            .pipe (
+    //              tap ( users => this.list.next( users ) )
+    //            );
   }
 
   getUserById( id: number ): Observable<User> {
