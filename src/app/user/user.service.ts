@@ -50,7 +50,10 @@ export class UserService {
   }
 
   create( user: User ): Observable<User> {
-    return this.http.post<User> ( environment.userEndpoint, user )
+    // return this.http.post<User> ( environment.userEndpoint, user )
+    return this.http.request<User>( 'post', environment.userEndpoint, {
+      body: user
+    } )
                .pipe (
                  tap ( createdUsr => this.getUsers ()
                                          .subscribe () )
