@@ -1,0 +1,39 @@
+<form [formGroup]="myForm"
+      (submit)="sendForm( )"
+      (reset)="resetForm( $event )">
+
+    <span>Vorname: </span><input type="text"
+           [formControl]="firstname"
+           placeholder="Vorname">
+    <span class="error" *ngIf="firstname.touched && firstname.dirty && firstname.errors">
+      <span *ngIf="firstname.errors?.required">Bitte Vornamen eintrage</span>
+      <span *ngIf="firstname.errors?.minlength">Es müssen min. 2 Zeichen eingegeben sein</span>
+    </span>
+    <br>
+
+  <span>Nachname: </span><input type="text"
+           [formControl]="lastname"
+           placeholder="Nachname">
+    <span class="error" *ngIf="lastname.touched && lastname.dirty && lastname.errors">
+      <span *ngIf="lastname.errors?.required">Bitte Nachname eintrage</span>
+      <span *ngIf="lastname.errors?.minlength">Es müssen min. 2 Zeichen eingegeben sein</span>
+    </span>
+    <br>
+
+  <span>Alter: </span><input type="number"
+           [formControl]="age" [min]="1" [max]="100"
+           placeholder="Alter">
+    <span class="error" *ngIf="age.touched && age.dirty && age.errors">
+      <span *ngIf="age.errors?.required">Bitte Vornamen eintrage</span>
+      <span *ngIf="age.errors?.min||age.errors?.max">Bitte nur einen Wert zwischen 1 und 100</span>
+    </span>
+    <br>
+
+    <input type="hidden" [formControl]="id">
+
+  <button type="reset"
+          [disabled]="myForm.pristine">Zurücksetzen</button>
+  <button type="submit"
+          [disabled]="myForm.invalid">Absenden</button>
+
+</form>

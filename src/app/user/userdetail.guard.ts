@@ -13,7 +13,8 @@ export class UserdetailGuard implements Resolve<User> {
   }
 
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<User> | Promise<User> | User {
-    const name: string = route.paramMap.get ( 'name' );
-    return this.userService.getUserByName ( name );
+    const id: number = parseInt( route.paramMap.get ( 'id' ), 10 );
+    // return this.userService.getUserByName ( name );
+    return this.userService.getUserById ( id );
   }
 }

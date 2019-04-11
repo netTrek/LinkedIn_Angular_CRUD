@@ -45,6 +45,9 @@ footer {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  position: relative;
+  top: -20px;
+  right: -10px;
 
   &.close:hover,
   &.close:focus {

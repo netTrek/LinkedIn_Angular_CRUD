@@ -6,7 +6,7 @@
 <h4>{{userList.myServiceValue}}</h4>
 -->
 <a *ngFor="let user of users; even as e"
-   [routerLink]="[ user.firstname + ' ' + user.lastname ]"
+   [routerLink]="[ user.id ]"
 >
   <in-user-name [user]="user"
                 [isSelected]="selectedUsr===user"

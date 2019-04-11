@@ -1,0 +1,27 @@
+span {
+  font-size: smaller;
+  width: 22%;
+  float: left;
+  &.error {
+    width: 70%;
+    color: red;
+    padding-left: 22%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    > span {
+      width: 100%;
+    }
+  }
+}
+
+input {
+  width: 70%;
+  &.ng-invalid.ng-dirty.ng-touched {
+    color: red;
+    border: red solid 1px;
+  }
+}
+
+button {
+  margin-left: 22%;
+}

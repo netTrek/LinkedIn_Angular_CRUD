@@ -8,6 +8,7 @@ import { UserGuard } from './user/user.guard';
 import { UserdetailGuard } from './user/userdetail.guard';
 import { UserAuthGuard } from './user/user-auth.guard';
 import { ModalAComponent } from './modal/modal-a/modal-a.component';
+import { UserFormComponent } from './user/user-form/user-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -28,11 +29,14 @@ const routes: Routes = [
     }
   },
   {
-    path       : 'user/:name', component: UserDetailsComponent,
+    path       : 'user/:id', component: UserDetailsComponent,
     canActivate: [ UserAuthGuard ],
     resolve    : {
       user: UserdetailGuard
     }
+  },
+  {
+    path       : 'addUser', component: UserFormComponent, outlet: 'modal'
   },
   {
     path: 'contact', loadChildren: './contact/contact.module#ContactModule'

@@ -15,15 +15,14 @@ export class UserComponent implements OnInit, OnDestroy {
   description: string;
   subheader: string;
 
-  private sub1: Subscription;
-  private sub2: Subscription;
+  private sub: Subscription;
 
   constructor( private router: Router, private route: ActivatedRoute ) {
   }
 
   ngOnInit() {
-    this.sub1 = this.route.params.subscribe ( console.log );
-    this.sub2 = this.route.data.subscribe ( data => {
+    // this.sub1 = this.route.params.subscribe ( console.log );
+    this.sub = this.route.data.subscribe ( data => {
       this.userlist    = data.userlist;
       this.header      = data.header;
       this.subheader   = data.subheader;
@@ -39,7 +38,10 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub1.unsubscribe ();
-    this.sub2.unsubscribe ();
+    this.sub.unsubscribe ();
+  }
+
+  addNewUser() {
+    this.router.navigate ( [ { outlets: { modal: [ 'addUser' ] } } ] );
   }
 }

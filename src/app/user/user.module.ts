@@ -9,12 +9,15 @@ import { UserListInfoComponent } from './user/user-list/user-list-info/user-list
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserFormComponent } from './user-form/user-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule ( {
   imports     : [
     CommonModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   declarations: [ UserComponent,
                   UserListComponent,
@@ -22,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
                   UserListHeaderComponent,
                   UserListSubHeaderComponent,
                   UserListInfoComponent,
-                  UserDetailsComponent
+                  UserDetailsComponent,
+                  UserFormComponent
   ],
   exports     : [ UserComponent ]
 } )
