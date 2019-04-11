@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { User } from './user';
 import { concatMap, filter, tap } from 'rxjs/operators';
-import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable ( {
@@ -61,7 +61,8 @@ export class UserService {
   }
 
   update( user: User ): Observable<User> {
-    return this.http.put<User> ( `${environment.userEndpoint}/${user.id}`, user )
+    const headers: HttpHeaders = new HttpHeaders( { TEST: 'netTrek'} );
+    return this.http.put<User> ( `${environment.userEndpoint}/${user.id}`, user, {headers}  )
                .pipe (
                  tap ( updatedUsr => this.updated.next( updatedUsr ) )
                );
