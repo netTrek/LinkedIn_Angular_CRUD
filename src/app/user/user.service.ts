@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from './user';
-import { map, tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable ( {
   providedIn: 'root'
@@ -32,10 +33,17 @@ export class UserService {
                    throw ( new Error ('ups ... so nicht!') );
                    return value;
                  }),
+                 catchError( err => {
+                   if ( err instanceof HttpErrorResponse ) {
+                     console.log ( 'Serverseitiger Fehler' );
+                   } else {
+                     console.log ( 'Clientseitiger Fehler' );
+                   }
+                   return of ( [] );
+                 }),
                  tap ( users => this.list.next ( users ),
                    err => {
                     console.log ( err );
-                    alert ( 'Fehler');
                    } )
                );
   }
