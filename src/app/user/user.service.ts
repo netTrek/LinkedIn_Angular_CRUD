@@ -56,7 +56,7 @@ export class UserService {
   update( user: User ): Observable<User> {
     return this.http.put<User> ( `${environment.userEndpoint}/${user.id}`, user )
                .pipe (
-                 tap ( updateddUsr => this.updated.next(updateddUsr) )
+                 tap ( updatedUsr => this.updated.next( updatedUsr ) )
                );
   }
 

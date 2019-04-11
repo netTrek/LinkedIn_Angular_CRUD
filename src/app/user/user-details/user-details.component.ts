@@ -25,7 +25,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe ();
-    this.updateSub.unsubscribe ();
+    if ( !!this.updateSub ) {
+      this.updateSub.unsubscribe ();
+    }
   }
 
 
