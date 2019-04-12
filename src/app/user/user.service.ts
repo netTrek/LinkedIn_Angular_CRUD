@@ -28,34 +28,10 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    let error = null;
     return this.http.get<User[]> ( environment.userEndpoint )
                .pipe (
-                 map ( value => {
-                   // throw ( new Error ('ups ... so nicht!') );
-                   return value;
-                 }),
-                 tap ( undefined, err => error = err ),
-                 retryWhen ( errors => {
-                   return interval( 5000 )
-                     .pipe(
-                       concatMap( value => {
-                         if ( value < 1 ) {
-                           return of ( empty );
-                         }
-                         return throwError ( error );
-                       })
-                     );
-                 }),
-                 catchError( err => {
-                   if ( err instanceof HttpErrorResponse ) {
-                     console.log ( 'Serverseitiger Fehler' );
-                   } else {
-                     console.log ( 'Clientseitiger Fehler' );
-                   }
-                   return of ( [] );
-                 }),
-                 tap ( users => this.list.next ( users ),
+                 tap (
+                   users => this.list.next ( users ),
                    err => {
                     console.log ( err );
                    } )

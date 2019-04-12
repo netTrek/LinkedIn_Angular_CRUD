@@ -8,9 +8,10 @@ import { UserListSubHeaderComponent } from './user/user-list/user-list-sub-heade
 import { UserListInfoComponent } from './user/user-list/user-list-info/user-list-info.component';
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserFormComponent } from './user-form/user-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserInterceptorService } from './user-interceptor.service';
 
 @NgModule ( {
   imports     : [
@@ -27,6 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
                   UserListInfoComponent,
                   UserDetailsComponent,
                   UserFormComponent
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true }
   ],
   exports     : [ UserComponent ]
 } )
