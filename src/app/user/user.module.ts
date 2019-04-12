@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserFormComponent } from './user-form/user-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserInterceptorService } from './user-interceptor.service';
+import { UserAuthInterceptorService } from './user-auth-interceptor.service';
 
 @NgModule ( {
   imports     : [
@@ -30,7 +31,8 @@ import { UserInterceptorService } from './user-interceptor.service';
                   UserFormComponent
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: UserAuthInterceptorService, multi: true }
   ],
   exports     : [ UserComponent ]
 } )

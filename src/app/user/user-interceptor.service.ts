@@ -21,15 +21,15 @@ export class UserInterceptorService implements HttpInterceptor {
                  tap ( event => {
                      if ( event.type === HttpEventType.Sent ) {
                        reqCounter ++;
-                       console.log ( 'SENT::: current num of requests ' + reqCounter );
+                       // console.log ( 'SENT::: current num of requests ' + reqCounter );
                      } else if ( event.type === HttpEventType.Response ) {
                        reqCounter --;
-                       console.log ( 'RESPONSE::: current num of requests ' + reqCounter );
+                       // console.log ( 'RESPONSE::: current num of requests ' + reqCounter );
                      }
                    },
                    err => {
                      reqCounter --;
-                     console.log ( 'ERROR::: current num of requests ' + reqCounter );
+                     // console.log ( 'ERROR::: current num of requests ' + reqCounter );
                    } )
                )
       ;
