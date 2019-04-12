@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:restapi": "json-server --watch mock-backend/db-mock/db.json",
-    "watch:express": "nodemon --watch ./ --exec 'ts-node  --project ./mock-backend/tsconfig.express.json ./mock-backend/index.ts' --verbose -e ts"
+    "watch:express": "nodemon --watch ./ --exec 'ts-node  --project ./mock-backend/tsconfig.express.json ./mock-backend/index.ts' --verbose -e ts",
+    "start:express": "nodemon ./ --exec 'ts-node  --project ./mock-backend/tsconfig.express.json ./mock-backend/index.ts' --verbose -e ts"
   },
   "private": true,
   "dependencies": {

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../user/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component ( {
   selector   : 'in-home',
@@ -11,11 +12,12 @@ import { UserService } from '../../user/user.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
   cookieAccepted = true;
+  htmlString: string;
 
   private sub1: Subscription;
   private sub2: Subscription;
 
-  constructor( private route: ActivatedRoute, public userService: UserService, private router: Router ) {
+  constructor( private route: ActivatedRoute, public userService: UserService, private router: Router, private httpClient: HttpClient ) {
   }
 
   ngOnInit() {
@@ -26,6 +28,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log ( 'habe test: ', map.get ( 'test' ) );
       }
     } );
+
+    this.httpClient.get( '/assets/data/html.txt', { responseType: 'text'} ).subscribe( txt => this.htmlString = txt );
 
   }
 

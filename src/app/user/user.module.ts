@@ -31,8 +31,8 @@ import { UserAuthInterceptorService } from './user-auth-interceptor.service';
                   UserFormComponent
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true },
-    {provide: HTTP_INTERCEPTORS, useClass: UserAuthInterceptorService, multi: true }
+    // {provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true },
+    // {provide: HTTP_INTERCEPTORS, useClass: UserAuthInterceptorService, multi: true }
   ],
   exports     : [ UserComponent ]
 } )
