@@ -3,19 +3,32 @@
  * Copyright (c) 2019 by netTrek GmbH & Co. KG
  */
 
-const path  = require ( 'path' );
+const path        = require ( 'path' );
+const multer      = require ( 'multer' );
 const jsonServer  = require ( 'json-server' );
 const server      = jsonServer.create ();
 const router      = jsonServer.router ( './mock-backend/db-mock/db.json' );
 const middlewares = jsonServer.defaults ();
-// let counter       = 0;
+
+// Config for multer storage
+const storage = multer.diskStorage ( {
+  destination: ( req, file, cb ) => {
+    cb ( null, './mock-backend/uploads' );
+  },
+  filename   : ( req, file, cb ) => {
+    cb ( null, file.originalname );
+  }
+} );
+// shortcut for multer with configuration
+const upload  = multer ( { storage } );
+
 server.use ( jsonServer.bodyParser );
 
 router.render = ( req, res, next ) => {
   res.status ( 200 );
   if ( req.url.toLowerCase ()
           .startsWith ( '/blob' ) ) {
-    res.sendFile ( path.resolve(__dirname, './public/img/logo.png'), next );
+    res.sendFile ( path.resolve ( __dirname, './public/img/logo.png' ), next );
     return;
   }
   res.send ( res.locals.data );
@@ -45,6 +58,17 @@ router.render = ( req, res, next ) => {
 // };
 
 server.use ( middlewares );
+
+// Add custom routes before JSON Server router
+server.post ( '/upload', upload.single ( 'fileKey' ), ( req, res, next ) => {
+  try {
+    console.log ( 'got upload', req.file );
+    res.send ( { fileName: req.file.filename, originalName: req.file.originalname } );
+  } catch ( err ) {
+    res.sendStatus ( 400 );
+  }
+} );
+
 server.use ( router );
 
 server.listen ( 3000, () => {
